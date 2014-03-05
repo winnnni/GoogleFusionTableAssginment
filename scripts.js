@@ -59,10 +59,13 @@ function dataLoaded(USUNEMPLOYMENT){
 	//copy paste the Div I created in the webpage
         myLineChart1.draw(gRefinedUnemploymentData,options1);
 }
+
+//in order to draw a new data set, I have to create another "function" following all steps i did for the first function
 function newdataLoaded(USUNEMPLOYMENT2){
 
 	console.log(USUNEMPLOYMENT2);
-	//I have to define the "dataloaded2"	
+	//I have to define the "newdataLoaded"
+	//all other names I added "2" at the end to separate from the first one	
 	var gRefinedUnemploymentData2 = new google.visualization.DataTable();
 	
 	gRefinedUnemploymentData2.addColumn('string', USUNEMPLOYMENT2.columns[0]);
@@ -73,6 +76,7 @@ function newdataLoaded(USUNEMPLOYMENT2){
           title: "bad economy--unemployment rate over 7"
         };
 //since I have two charts, I var another line chart name and draw new chart
+//the container is the name I created in the webpage
 	var myLineChart2 = new google.visualization.LineChart(document.getElementById("badeconomyDiv"));
 	//copy paste the Div I created in the webpage
         myLineChart2.draw(gRefinedUnemploymentData2,options2);
@@ -84,8 +88,8 @@ function googleLoaded(){
 	
 	//use the jQeury get function to load my json file
 	//takes 3 parameter 
-	//first is the name of the file
-	//second is the function to call once the file is loaded, I keep the "dataLoaded"
+	//first is the url address of my refined data created from my google fusion table
+	//second is the function to call once the file is loaded, I keep the "dataLoaded" and add "newdataLoaded"
 	//third is a string of the file type to expect
 	$.get("https://www.googleapis.com/fusiontables/v1/query?sql=SELECT+*+FROM+1tAbuVjBmg2V3kehcxjjHMdN5rzEmMTYzyG-_8jF5+WHERE+VALUE<6&key=AIzaSyCanjIpR_ywL5C-JN0Wv7jmtkaqOuJJAlY", dataLoaded,"json");
 
