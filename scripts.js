@@ -46,25 +46,36 @@ function dataLoaded(USUNEMPLOYMENT){
 	gRefinedUnemploymentData.addRows(USUNEMPLOYMENT.rows);
 	//copy and paste "addColumn" and "addRows" from google
 	//in my data set, I already have properties that can be used as headernames
-	
+
+
 	//create options object to actually customeize
 	//I need two headlines to distinguish two different line charts
 	var options1 = {
           title: "good economy--unemployment rate below 6"
         };
 
-	var options2 = {
-          title: "bad economy--unemployment rate over 7"
-        };
 	//figure out what type of chart i want
 	var myLineChart1 = new google.visualization.LineChart(document.getElementById("goodeconomyDiv"));
 	//copy paste the Div I created in the webpage
         myLineChart1.draw(gRefinedUnemploymentData,options1);
+}
+function newdataLoaded(USUNEMPLOYMENT2){
 
-	//since I have two charts, I var another line chart name and draw new chart
+	console.log(USUNEMPLOYMENT2);
+	//I have to define the "dataloaded2"	
+	var gRefinedUnemploymentData2 = new google.visualization.DataTable();
+	
+	gRefinedUnemploymentData2.addColumn('string', USUNEMPLOYMENT2.columns[0]);
+	gRefinedUnemploymentData2.addColumn('number', USUNEMPLOYMENT2.columns[1]);
+
+	gRefinedUnemploymentData2.addRows(USUNEMPLOYMENT2.rows);
+	var options2 = {
+          title: "bad economy--unemployment rate over 7"
+        };
+//since I have two charts, I var another line chart name and draw new chart
 	var myLineChart2 = new google.visualization.LineChart(document.getElementById("badeconomyDiv"));
 	//copy paste the Div I created in the webpage
-        myLineChart2.draw(gRefinedUnemploymentData,options2);
+        myLineChart2.draw(gRefinedUnemploymentData2,options2);
 }
 
 function googleLoaded(){
@@ -78,7 +89,7 @@ function googleLoaded(){
 	//third is a string of the file type to expect
 	$.get("https://www.googleapis.com/fusiontables/v1/query?sql=SELECT+*+FROM+1tAbuVjBmg2V3kehcxjjHMdN5rzEmMTYzyG-_8jF5+WHERE+VALUE<6&key=AIzaSyCanjIpR_ywL5C-JN0Wv7jmtkaqOuJJAlY", dataLoaded,"json");
 
-	$.get("https://www.googleapis.com/fusiontables/v1/query?sql=SELECT+*+FROM+1tAbuVjBmg2V3kehcxjjHMdN5rzEmMTYzyG-_8jF5+WHERE+VALUE>7&key=AIzaSyCanjIpR_ywL5C-JN0Wv7jmtkaqOuJJAlY", dataLoaded2,"json");
+	$.get("https://www.googleapis.com/fusiontables/v1/query?sql=SELECT+*+FROM+1tAbuVjBmg2V3kehcxjjHMdN5rzEmMTYzyG-_8jF5+WHERE+VALUE>7&key=AIzaSyCanjIpR_ywL5C-JN0Wv7jmtkaqOuJJAlY", newdataLoaded,"json");
 }
 function pageLoaded(){
 	
