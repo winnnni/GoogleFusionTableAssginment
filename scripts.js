@@ -1,9 +1,10 @@
 /**
  * @author
  */
-/* I was trying to find currency exchange rate data set, but failed.
- * So I am sticking with the unemployment data from class.
- * I am creating a line chart showing the unemployment rate since 1980.
+/* For this assignment, I am going to start with the data set and webpage from what we have used in class.
+ * The data set is from FRED, which is the unemployment from 1948.
+ * I want to creat two charts on my webpage showing good economy and bad economy
+ * I define "good economy" as unemployment rate below 6, and "bad economy" as over 7 
  */
 /*
  * program outline
@@ -24,45 +25,50 @@
  * 			tell library where i want to draw the data
  * 			add options: headline of my chart 
  */
-console.log ("The First step, I am going to create a line chart of unemployment today.");
+console.log ("The First step, I am going to refine unemployment data set.");
 
 //USUNEMPLOYMENT is the local name of thejason file i just loaded
 //USUNEMPLOYMENT is the name i picked myself, can be any.
 
 
-function dataLoaded(UNEMPDATA){
+function dataLoaded(USUNEMPLOYMENT){
 	
-	console.log("hi");
-	console.log(UNEMPDATA);
+	console.log(USUNEMPLOYMENT);
 	
-	var gDataTable = new google.visualization.DataTable();
+	var gRefinedUnemploymentData = new google.visualization.DataTable();
+	//Variable that refers to a Google visuliaztion object begins with "g"
 	
 	//when i add column, put in the column name
 	//second parameter is the name of the column
-	gDataTable.addColumn('string', UNEMPDATA.columns[0]);
-	gDataTable.addColumn('number', UNEMPDATA.columns[1]);
+	gRefinedUnemploymentData.addColumn('string', USUNEMPLOYMENT.columns[0]);
+	gRefinedUnemploymentData.addColumn('number', USUNEMPLOYMENT.columns[1]);
 
-	gDataTable.addRows(UNEMPDATA.rows);
+	gRefinedUnemploymentData.addRows(USUNEMPLOYMENT.rows);
+	//copy and paste "addColumn" and "addRows" from google
+	//in my data set, I already have properties that can be used as headernames
 	
 	//create options object to actually customeize
-	//I need a headline
-	var options = {
-          title: "Unemployment rate since 1980"
+	//I need two headlines to distinguish two different line charts
+	var options1 = {
+          title: "good economy--unemployment rate below 6"
         };
 
+	var options2 = {
+          title: "bad economy--unemployment rate over 7"
+        };
 	//figure out what type of chart i want
-	var myLineChart = new google.visualization.LineChart(document.getElementById("linechartunempDiv"));
+	var myLineChart1 = new google.visualization.LineChart(document.getElementById("goodeconomyDiv"));
 	//copy paste the Div I created in the webpage
-        myLineChart.draw(gDataTable,options);
+        myLineChart1.draw(gRefinedUnemploymentData,options1);
 
-
-	var myLineChart = new google.visualization.LineChart(document.getElementById("linechartunempDiv2"));
+	//since I have two charts, I var another line chart name and draw new chart
+	var myLineChart2 = new google.visualization.LineChart(document.getElementById("badeconomyDiv"));
 	//copy paste the Div I created in the webpage
-        myLineChart.draw(gDataTable,options);
+        myLineChart2.draw(gRefinedUnemploymentData,options2);
 }
 
 function googleLoaded(){
-	console.log("I can see line chart now.");
+	console.log("I can see line charts now.");
 	
 	
 	//use the jQeury get function to load my json file
@@ -70,9 +76,9 @@ function googleLoaded(){
 	//first is the name of the file
 	//second is the function to call once the file is loaded, I keep the "dataLoaded"
 	//third is a string of the file type to expect
-	 $.get("https://www.googleapis.com/fusiontables/v1/query?sql=SELECT+*+FROM+1tAbuVjBmg2V3kehcxjjHMdN5rzEmMTYzyG-_8jF5+WHERE+DATE>'1979-12-01'&key=AIzaSyCanjIpR_ywL5C-JN0Wv7jmtkaqOuJJAlY", dataLoaded,"json");
+	$.get("https://www.googleapis.com/fusiontables/v1/query?sql=SELECT+*+FROM+1tAbuVjBmg2V3kehcxjjHMdN5rzEmMTYzyG-_8jF5+WHERE+VALUE<6&key=AIzaSyCanjIpR_ywL5C-JN0Wv7jmtkaqOuJJAlY", dataLoaded,"json");
 
-	$.get("https://www.googleapis.com/fusiontables/v1/query?sql=SELECT+*+FROM+1tAbuVjBmg2V3kehcxjjHMdN5rzEmMTYzyG-_8jF5+WHERE+DATE>'1979-12-01'&key=AIzaSyCanjIpR_ywL5C-JN0Wv7jmtkaqOuJJAlY", dataLoaded2,"json");
+	$.get("https://www.googleapis.com/fusiontables/v1/query?sql=SELECT+*+FROM+1tAbuVjBmg2V3kehcxjjHMdN5rzEmMTYzyG-_8jF5+WHERE+VALUE>7&key=AIzaSyCanjIpR_ywL5C-JN0Wv7jmtkaqOuJJAlY", dataLoaded2,"json");
 }
 function pageLoaded(){
 	
